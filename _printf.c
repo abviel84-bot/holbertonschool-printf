@@ -66,6 +66,7 @@ int _printf(const char *format, ...)
 		{
 			i++;
 
+			/* Si % es el último caracter, no imprimir nada */
 			if (format[i] == '\0')
 				break;
 
@@ -77,7 +78,7 @@ int _printf(const char *format, ...)
 				count += handle_percent();
 			else
 			{
-				/* Unknown specifier: print % and char */
+				/* Unknown specifier: imprimir % seguido del caracter */
 				count += _putchar('%');
 				count += _putchar(format[i]);
 			}
