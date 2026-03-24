@@ -14,7 +14,7 @@ int main(void)
 	_printf("Char: %c\n", 'A');
 
 	/* Prueba de percent */
-	_printf("Percent: %%\n");
+	_printf("Percent: \n");
 
 	/* Prueba de specifier desconocido */
 	_printf("Unknown: %K\n");

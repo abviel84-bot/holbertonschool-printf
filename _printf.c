@@ -51,7 +51,8 @@ int handle_percent(void)
  */
 int _printf(const char *format, ...)
 {
-	int i = 0, count = 0;
+	int i = 0;
+	int count = 0;
 	va_list args;
 
 	if (!format)
@@ -63,14 +64,11 @@ int _printf(const char *format, ...)
 	{
 		if (format[i] == '%')
 		{
-			i++;  /* Saltamos el % */
+			i++;
 
-			/* Si % es el último caracter, terminamos sin imprimir */
+			/* Si % es el último caracter, no imprimir nada */
 			if (format[i] == '\0')
-			{
-				va_end(args);
-				return (count);
-			}
+				break;
 
 			if (format[i] == 'c')
 				count += handle_char(args);
@@ -80,7 +78,7 @@ int _printf(const char *format, ...)
 				count += handle_percent();
 			else
 			{
-				/* Specifier desconocido: imprimir % + caracter */
+				/* Unknown specifier: imprimir % seguido del caracter */
 				count += _putchar('%');
 				count += _putchar(format[i]);
 			}
@@ -89,9 +87,11 @@ int _printf(const char *format, ...)
 		{
 			count += _putchar(format[i]);
 		}
+
 		i++;
 	}
 
 	va_end(args);
+
 	return (count);
 }
