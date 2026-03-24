@@ -66,10 +66,11 @@ int _printf(const char *format, ...)
 		{
 			i++;
 
-			/* Si % es el último caracter, no imprimir nada */
+			/* Si % está al final del string, no hacer nada */
 			if (format[i] == '\0')
 				break;
 
+			/* Manejo de specifiers válidos */
 			if (format[i] == 'c')
 				count += handle_char(args);
 			else if (format[i] == 's')
@@ -78,7 +79,7 @@ int _printf(const char *format, ...)
 				count += handle_percent();
 			else
 			{
-				/* Unknown specifier: imprimir % seguido del caracter */
+				/* Specifier desconocido: imprimir % + caracter */
 				count += _putchar('%');
 				count += _putchar(format[i]);
 			}
