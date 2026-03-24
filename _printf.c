@@ -51,8 +51,7 @@ int handle_percent(void)
  */
 int _printf(const char *format, ...)
 {
-	int i = 0;
-	int count = 0;
+	int i = 0, count = 0;
 	va_list args;
 
 	if (!format)
@@ -66,11 +65,13 @@ int _printf(const char *format, ...)
 		{
 			i++;
 
-			/* Si % está al final del string, no hacer nada */
+			/* Si % está al final, terminar la función inmediatamente */
 			if (format[i] == '\0')
-				break;
+			{
+				va_end(args);
+				return (count);
+			}
 
-			/* Manejo de specifiers válidos */
 			if (format[i] == 'c')
 				count += handle_char(args);
 			else if (format[i] == 's')
@@ -88,11 +89,9 @@ int _printf(const char *format, ...)
 		{
 			count += _putchar(format[i]);
 		}
-
 		i++;
 	}
 
 	va_end(args);
-
 	return (count);
 }
