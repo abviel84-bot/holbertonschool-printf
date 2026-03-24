@@ -63,9 +63,9 @@ int _printf(const char *format, ...)
 	{
 		if (format[i] == '%')
 		{
-			i++;
+			i++;  /* Saltamos el % */
 
-			/* Si % está al final, terminar la función inmediatamente */
+			/* Si % es el último caracter, terminamos sin imprimir */
 			if (format[i] == '\0')
 			{
 				va_end(args);
