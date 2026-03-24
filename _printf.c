@@ -66,12 +66,21 @@ int _printf(const char *format, ...)
 		{
 			i++;
 
+			if (format[i] == '\0')
+				break;
+
 			if (format[i] == 'c')
 				count += handle_char(args);
 			else if (format[i] == 's')
 				count += handle_string(args);
 			else if (format[i] == '%')
 				count += handle_percent();
+			else
+			{
+				/* Unknown specifier: print % and char */
+				count += _putchar('%');
+				count += _putchar(format[i]);
+			}
 		}
 		else
 		{
