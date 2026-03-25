@@ -1,59 +1,16 @@
+#include <stdarg.h>
+#include <unistd.h>
 #include "main.h"
 
 /**
- * handle_char - prints a character
- * @args: va_list containing the character
- * Return: number of characters printed (1)
- */
-int handle_char(va_list args)
-{
-	char c = va_arg(args, int);
-
-	return (_putchar(c));
-}
-
-/**
- * handle_string - prints a string
- * @args: va_list containing the string
- * Return: number of characters printed
- */
-int handle_string(va_list args)
-{
-	char *str = va_arg(args, char *);
-	int count = 0;
-	int i = 0;
-
-	if (!str)
-		str = "(null)";
-
-	while (str[i])
-	{
-		count += _putchar(str[i]);
-		i++;
-	}
-
-	return (count);
-}
-
-/**
- * handle_percent - prints a percent sign
- * Return: number of characters printed (1)
- */
-int handle_percent(void)
-{
-	return (_putchar('%'));
-}
-
-/**
  * _printf - produces output according to a format
- * @format: format string
+ * @format: character string with directives
  * Return: number of characters printed
  */
 int _printf(const char *format, ...)
 {
-	int i = 0;
-	int count = 0;
 	va_list args;
+	int i = 0, count = 0;
 
 	if (!format)
 		return (-1);
@@ -65,33 +22,33 @@ int _printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
-
-			/* Si % es el último caracter, no imprimir nada */
-			if (format[i] == '\0')
-				break;
+			if (!format[i])
+				return (-1);
 
 			if (format[i] == 'c')
-				count += handle_char(args);
+				count += print_char(args);
 			else if (format[i] == 's')
-				count += handle_string(args);
+				count += print_string(args);
 			else if (format[i] == '%')
-				count += handle_percent();
+			{
+				write(1, "%", 1);
+				count++;
+			}
 			else
 			{
-				/* Unknown specifier: imprimir % seguido del caracter */
-				count += _putchar('%');
-				count += _putchar(format[i]);
+				write(1, "%", 1);
+				write(1, &format[i], 1);
+				count += 2;
 			}
 		}
 		else
 		{
-			count += _putchar(format[i]);
+			write(1, &format[i], 1);
+			count++;
 		}
-
 		i++;
 	}
 
 	va_end(args);
-
 	return (count);
 }
