@@ -36,6 +36,21 @@ int print_string(va_list args)
 	return (len);
 }
 
+int print_unsigned(unsigned int n)
+{
+	int count = 0;
+	char digit;
+
+	if (n / 10)
+		count += print_unsigned(n / 10);
+
+	digit = (n % 10) + '0';
+	write(1, &digit, 1);
+	count++;
+
+	return (count);
+}
+
 /**
  * print_int - prints a signed integer
  * @args: va_list with the int argument
@@ -61,21 +76,6 @@ int print_int(va_list args)
 		count += print_unsigned(num / 10);
 
 	digit = (num % 10) + '0';
-	write(1, &digit, 1);
-	count++;
-
-	return (count);
-}
-
-int print_unsigned(unsigned int n)
-{
-	int count = 0;
-	char digit;
-
-	if (n / 10)
-		count += print_unsigned(n / 10);
-
-	digit = (n % 10) + '0';
 	write(1, &digit, 1);
 	count++;
 
